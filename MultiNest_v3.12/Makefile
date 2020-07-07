@@ -4,17 +4,19 @@
 #FFLAGS += -O3 -DMPI
 #CFLAGS += -O3 -DMPI
 
-FC = mpif90
+FC = gfortran
 CC = gcc
 CXX = g++
-FFLAGS += -ffree-line-length-none -O3 -DMPI
-CFLAGS += -O3 -DMPI
+FFLAGS += -ffree-line-length-none -O3 # -DMPI
+CFLAGS += -O3 -I/c/rtools40/mingw64/include # -DMPI
 
-LAPACKLIB = -llapack
+LDFLAGS = -L/c/rtools40/mingw64/lib 
+
+LAPACKLIB = -llapack -lblas
 
 NESTLIBDIR = ./
 
-export FC CC CXX FFLAGS CFLAGS LAPACKLIB
+export FC CC CXX FFLAGS CFLAGS LDFLAGS LAPACKLIB
 
  
 AR = ar r  
@@ -115,3 +117,4 @@ clean_example_eggbox_C:
 	
 clean_example_eggbox_C++:
 	make -C example_eggbox_C++ clean
+
