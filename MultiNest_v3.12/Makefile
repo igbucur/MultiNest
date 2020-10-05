@@ -1,25 +1,37 @@
-#FC = ifort -lmpi
-#CC = icc -lmpi
-#CXX = icpc -lmpi
-#FFLAGS += -O3 -DMPI
-#CFLAGS += -O3 -DMPI
+# Equivalent settings for Intel compiler suite
+# FC = ifort -lmpi
+# CC = icc -lmpi
+# CXX = icpc -lmpi
+# FFLAGS += -O3 -DMPI
+# CFLAGS += -O3 -DMPI
+
+ifeq ($(OS), Windows_NT)
+  R_EXEC = /c/Program\ Files/R/R-4.0.2/bin/R.exe
+  MINGW_DIR = /c/msys64/mingw64
+  CC = $(MINGW_DIR)/bin/gcc.exe
+  CXX = $(MINGW_DIR)/bin/g++.exe
+  FC = $(MINGW_DIR)/bin/gfortran.exe
+  AR = $(MINGW_DIR)/bin/ar.exe
+  LD = $(MINGW_DIR)/bin/ld.exe
+  CFLAGS += -I$(MINGW_DIR)/include
+  LDFLAGS += -I$(MINGW_DIR)/lib
+else
+	R_EXEC = R
+	CC = gcc
+	CXX = g++
+	FC = gfortran
+	AR = ar r
+	LD = ld
+endif
 
 FC = gfortran
 CC = gcc
 CXX = g++
 FFLAGS += -ffree-line-length-none -O3 # -DMPI
-CFLAGS += -O3 -I/c/rtools40/mingw64/include # -DMPI
-
-LDFLAGS = -L/c/rtools40/mingw64/lib 
-
-LAPACKLIB = -llapack -lblas
+CFLAGS += -O3 # -DMPI
 
 NESTLIBDIR = ./
 
-export FC CC CXX FFLAGS CFLAGS LDFLAGS LAPACKLIB
-
- 
-AR = ar r  
 LINKLIB = ld -shared
  
 NSOBJECTS = utils.o utils1.o priors.o kmeans_clstr.o xmeans_clstr.o posterior.o nested.o
