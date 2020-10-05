@@ -14,7 +14,7 @@ ifeq ($(OS), Windows_NT)
   AR = $(MINGW_DIR)/bin/ar.exe r
   LD = $(MINGW_DIR)/bin/ld.exe
   CFLAGS += -I$(MINGW_DIR)/include
-  LDFLAGS += -I$(MINGW_DIR)/lib
+  LDFLAGS += -L$(MINGW_DIR)/lib
 else
 	R_EXEC = R
 	CC = gcc
